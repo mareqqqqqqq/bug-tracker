@@ -24,3 +24,18 @@
 .button:disabled {
   cursor: not-allowed;
 }
+
+.secondary {
+  background-color: var(--neutral-0);
+  color: var(--neutral-900);
+  border-color: var(--neutral-300);
+}
+
+.secondary:hover:not(:disabled) {
+  background-color: var(--neutral-100);
+}
+
+.secondary:disabled {
+  border-color: var(--neutral-200);
+  color: var(--neutral-300);
+}
