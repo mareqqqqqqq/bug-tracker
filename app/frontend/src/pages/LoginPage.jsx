@@ -1,4 +1,10 @@
+import Button from '../components/Button/Button.jsx';
+
 function LoginPage() {
-  return <h1>LoginPage</h1>;
+  return (
+    <>
+      <h1>LoginPage</h1> <Button>Войти</Button> <Button disabled>Войти</Button>
+    </>
+  );
 }
 export default LoginPage;

@@ -1,0 +1,26 @@
+.button {
+  font: inherit;
+  font-weight: 500;
+  padding: 9px 15px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: var(--accent-600);
+  color: var(--neutral-0);
+}
+
+.primary:hover:not(:disabled) {
+  background-color: var(--accent-700);
+}
+
+.primary:disabled {
+  background-color: var(--neutral-200);
+  color: var(--neutral-500);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+}
