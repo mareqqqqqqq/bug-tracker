@@ -1,5 +1,4 @@
-import { Routes, Route } from 'react-router';
-
+import { Routes, Route, Navigate } from 'react-router';
 import LoginPage from './pages/LoginPage';
 import BugListPage from './pages/BugListPage';
 import BugPage from './pages/BugPage';
@@ -13,6 +12,7 @@ import RegisterPage from './pages/RegisterPage';
 function App() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/projects/:projectId/bugs" element={<BugListPage />} />
       <Route path="/projects/:projectId/bugs/:bugId" element={<BugPage />} />
