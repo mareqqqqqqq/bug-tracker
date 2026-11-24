@@ -60,7 +60,7 @@ async def login(data: LoginRequest, response: Response, db: AsyncSession = Depen
     response.set_cookie(
         key="refresh_token",
         value=refresh_token,
-        max_age=settings.REFRESH_TOKEN_EXPIRE_MINUTES * 24 * 60 * 60,
+        max_age=settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
         httponly=True,
         samesite="Lax",
         secure=False,
