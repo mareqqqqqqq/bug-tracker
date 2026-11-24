@@ -3,13 +3,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select
 
-from app.models.user import User
-from app.schemas.auth import RegisterRequest, UserOut, LoginRequest
-from app.core.security import hash_password
-from app.db import get_db
+from app.backend.models.user import User
+from app.backend.schemas.auth import RegisterRequest, UserOut, LoginRequest
+from app.backend.db import get_db
 
-from app.core.config import settings
-from app.core.security import create_access_token, create_refresh_token, hash_password, hash_token, verify_password
+from app.backend.core.config import settings
+from app.backend.core.security import create_access_token, create_refresh_token, hash_password, hash_token, verify_password
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])

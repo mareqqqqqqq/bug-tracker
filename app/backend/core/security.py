@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime, timedelta, UTC
 
 import jwt
-from app.core.config import settings
+from app.backend.core.config import settings
 import hashlib
 
 ALGORITHM = "HS256"
