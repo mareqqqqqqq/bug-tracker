@@ -29,6 +29,11 @@ function LoginPage() {
         return;
       }
 
+      if (response.status >= 500) {
+        setError('Ошибка на сервере, попробуйте позже');
+        return;
+      }
+
       const data = await response.json();
 
       if (response.status === 401) {

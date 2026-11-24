@@ -37,6 +37,11 @@ function RegisterPage() {
         return;
       }
 
+      if (response.status >= 500) {
+        setErrors({ form: 'Ошибка на сервере, попробуйте позже' });
+        return;
+      }
+
       const data = await response.json();
 
       if (response.status === 409) {
@@ -45,9 +50,18 @@ function RegisterPage() {
         const newErrors = {};
         for (const item of data.detail) {
           const field = item.loc[1];
-          newErrors[field] = errorTexts[field];
+          if (field === 'password' && item.type === 'value_error') {
+            newErrors.password =
+              'Слишком длинный пароль: русская буква считается за 2 символа';
+          } else if (errorTexts[field]) {
+            newErrors[field] = errorTexts[field];
+          }
         }
-        setErrors(newErrors);
+        if (Object.keys(newErrors).length === 0) {
+          setErrors({ form: 'Проверьте введённые данные' });
+        } else {
+          setErrors(newErrors);
+        }
       } else {
         setErrors({ form: 'Проверьте введённые данные' });
       }
