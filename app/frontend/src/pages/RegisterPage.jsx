@@ -18,6 +18,7 @@ function RegisterPage() {
     <AuthLayout>
       <h1>Регистрация</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
+        <Input label="Фамилия Имя" placeholder="Иванов Иван" type="name" />
         <Input
           label="Email"
           placeholder="you@example.com"
