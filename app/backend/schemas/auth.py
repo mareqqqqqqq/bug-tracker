@@ -11,6 +11,10 @@ class RegisterRequest(BaseModel):
     def password_fits_bcrypt(cls, value: str) -> str:
         if (len(value.encode('utf-8'))) > 72:
             raise ValueError("Пароль слишком длинный")
+        if not any(ch.isalpha() for ch in value):
+            raise ValueError("Пароль должен содержать букву")
+        if not any(ch.isdigit() for ch in value):
+            raise ValueError("Пароль должен содержать цифру")
         return value
 
 class LoginRequest(BaseModel):
