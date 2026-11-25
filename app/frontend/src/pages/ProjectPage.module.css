@@ -82,3 +82,35 @@
 .role {
   color: var(--neutral-700);
 }
+
+.added td {
+  background: var(--neutral-200);
+}
+
+.addForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-200);
+  border-radius: 12px;
+}
+
+.addRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.emailField {
+  flex: 1;
+}
+
+.roleField {
+  width: 200px;
+}
+
+.addButton {
+  padding-top: 26px;
+}
