@@ -1,0 +1,16 @@
+.alert {
+  display: flex;
+  gap: 8px;
+  padding: 11px 15px;
+  border-radius: 8px;
+}
+
+.error {
+  background-color: var(--danger-50);
+  border: 1px solid var(--danger-600);
+  color: var(--danger-600);
+}
+
+.message {
+  color: var(--neutral-900);
+}
