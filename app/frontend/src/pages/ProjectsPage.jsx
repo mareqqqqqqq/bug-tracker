@@ -3,12 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import Button from '../components/Button/Button.jsx';
 import Alert from '../components/Alert/Alert.jsx';
 import styles from './ProjectsPage.module.css';
-
-const roleNames = {
-  lead: 'Тимлид',
-  developer: 'Разработчик',
-  tester: 'Тестировщик',
-};
+import { roleNames } from '../constants/roles.js';
 
 function ProjectsPage() {
   const [projects, setProjects] = useState(null);
