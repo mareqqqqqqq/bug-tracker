@@ -38,5 +38,12 @@ class ProjectListItem(BaseModel):
     members_count: int
     open_bugs_count: int = 0
 
+class ProjectDetail(BaseModel):
+    id: int
+    name: str
+    description: str | None
+    repo_url: str
+    my_role: ProjectRole
+
 
 

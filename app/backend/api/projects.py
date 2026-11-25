@@ -9,7 +9,9 @@ from app.backend.models.user import User
 from app.backend.schemas.project import ProjectCreate, ProjectOut
 from app.backend.schemas.project import ProjectListItem
 from sqlalchemy.orm import aliased
-
+from app.backend.core.dependencies import get_current_user, get_project_member
+from app.backend.schemas.project import ProjectDetail
+from app.backend.schemas.member import MemberOut
 router = APIRouter(prefix="/projects", tags=['projects'])
 
 @router.post("", response_model=ProjectOut, status_code=status.HTTP_201_CREATED)
@@ -54,3 +56,17 @@ async def list_projects(user: User = Depends(get_current_user),
         ProjectListItem(id=row.id, name=row.name, my_role=row.my_role, members_count=row.members_count)
         for row in rows
     ]
+
+@router.get("/{project_id}", response_model=ProjectDetail)
+async def get_project(project_id: int, member: ProjectMember = Depends(get_project_member),
+                      db: AsyncSession = Depends(get_db),
+                      ) -> ProjectDetail:
+    project = await db.get(Project, member.project_id)
+    return ProjectDetail(
+        id=project.id,
+        name=project.name,
+        description=project.description,
+        repo_url=project.repo_url,
+        my_role=member.role,
+    )
+
