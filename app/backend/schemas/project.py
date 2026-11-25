@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, Field, field_validator, ConfigDict
+from app.backend.models.project import ProjectRole
 
 class ProjectCreate(BaseModel):
     name: str = Field(min_length=1, max_length=100)
@@ -29,4 +30,13 @@ class ProjectOut(BaseModel):
     description: str | None
     repo_url: str
     created_at: datetime
+
+class ProjectListItem(BaseModel):
+    id: int
+    name: str
+    my_role: ProjectRole
+    members_count: int
+    open_bugs_count: int = 0
+
+
 
