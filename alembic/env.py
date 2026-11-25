@@ -9,6 +9,7 @@ from alembic import context
 from app.backend.core.config import settings
 from app.backend.db import Base
 from app.backend.models.user import User
+from app.backend.models.project import Project, ProjectMember
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
