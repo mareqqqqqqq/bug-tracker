@@ -36,8 +36,15 @@ def set_auth_cookies(response: Response, access_token: str, refresh_token: str) 
         path="/api/v1/auth",
     )
 
+async def start_session(user: User, response: Response, db: AsyncSession) -> None:
+    access_token = create_access_token(user.id)
+    refresh_token = create_refresh_token(user.id)
+    user.refresh_token_hash = hash_token(refresh_token)
+    await db.commit()
+    set_auth_cookies(response, access_token, refresh_token)
+
 @router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
-async def register(data: RegisterRequest, db: AsyncSession = Depends(get_db)):
+async def register(data: RegisterRequest, response: Response, db: AsyncSession = Depends(get_db), ):
     user = User(
         email=data.email.lower(),
         name=data.name,
@@ -45,14 +52,14 @@ async def register(data: RegisterRequest, db: AsyncSession = Depends(get_db)):
     )
     db.add(user)
     try:
-        await db.commit()
+        await db.flush()
     except IntegrityError:
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="Пользователь с такой почтой уже существует",
         )
-    await db.refresh(user)
+    await start_session(user, response, db)
     return user
 
 @router.post("/login", response_model=UserOut)
@@ -64,14 +71,7 @@ async def login(data: LoginRequest, response: Response, db: AsyncSession = Depen
             detail="Неверная почта или пароль"
         )
 
-    access_token = create_access_token(user.id)
-    refresh_token = create_refresh_token(user.id)
-
-    user.refresh_token_hash = hash_token(refresh_token)
-    await db.commit()
-
-    set_auth_cookies(response, access_token, refresh_token);
-
+    await start_session(user, response, db)
     return user
 
 @router.get("/me", response_model=UserOut)
