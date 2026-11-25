@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 56px;
+  padding: 0 24px;
+  box-sizing: border-box;
+  background: var(--neutral-0);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.logo {
+  color: var(--accent-600);
+  text-decoration: none;
+}
+
+.nav {
+  color: var(--neutral-900);
+  text-decoration: none;
+}
+
+.nav:hover {
+  color: var(--accent-600);
+}
+
+.user {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--neutral-200);
+}

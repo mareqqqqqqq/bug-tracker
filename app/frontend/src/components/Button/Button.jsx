@@ -1,11 +1,8 @@
 import styles from './Button.module.css';
 
-function Button({ children, disabled, variant = 'primary' }) {
+function Button({ children, variant = 'primary', ...rest }) {
   return (
-    <button
-      className={`${styles.button} ${styles[variant]}`}
-      disabled={disabled}
-    >
+    <button className={`${styles.button} ${styles[variant]}`} {...rest}>
       {children}
     </button>
   );
