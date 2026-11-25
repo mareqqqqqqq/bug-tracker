@@ -14,37 +14,48 @@ const roleOptions = [
   { value: 'lead', label: 'Тимлид' },
 ];
 
-const mockProject = {
-  id: 1,
-  name: 'Интернет-магазин',
-  description:
-    'Онлайн-магазин бытовой техники: каталог корзина оформление заказа.',
-  repo_url: 'https://github.com/team4/shop',
-  my_role: 'lead',
-};
-
 function ProjectPage() {
   const { projectId } = useParams();
   const { user, setRole } = useOutletContext();
   const navigate = useNavigate();
-  const [project] = useState(mockProject);
-  const [members, setMembers] = useState(() => [
-    { user_id: user.id, name: user.name, email: user.email, role: 'lead' },
-    {
-      user_id: 1001,
-      name: 'Мария Петрова',
-      email: 'petrova@mail.ru',
-      role: 'developer',
-    },
-    {
-      user_id: 1002,
-      name: 'Олег Смирнов',
-      email: 'smirnov@mail.ru',
-      role: 'tester',
-    },
-  ]);
+  const [project, setProject] = useState(null);
+  const [members, setMembers] = useState([]);
+  const [pageError, setPageError] = useState('');
 
-  const isLead = project.my_role === 'lead';
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadProject() {
+      try {
+        const [projectResponse, membersResponse] = await Promise.all([
+          fetch(`/api/v1/projects/${projectId}`, { signal: controller.signal }),
+          fetch(`/api/v1/projects/${projectId}/members`, {
+            signal: controller.signal,
+          }),
+        ]);
+        if (projectResponse.status === 404 || projectResponse.status === 422) {
+          setPageError('Проект не найден или у вас нет к нему доступа');
+          return;
+        }
+        if (!projectResponse.ok || !membersResponse.ok) {
+          setPageError('Не удалось загрузить проект');
+          return;
+        }
+        setProject(await projectResponse.json());
+        setMembers(await membersResponse.json());
+      } catch {
+        if (controller.signal.aborted) {
+          return;
+        }
+        setPageError('Сервер недоступен, попробуйте позже');
+      }
+    }
+
+    loadProject();
+    return () => controller.abort();
+  }, [projectId]);
+
+  const isLead = project?.my_role === 'lead';
 
   const [showForm, setShowForm] = useState(false);
   const [email, setEmail] = useState('');
@@ -110,9 +121,22 @@ function ProjectPage() {
   }
 
   useEffect(() => {
-    setRole(project.my_role);
+    if (project) {
+      setRole(project.my_role);
+    }
     return () => setRole(null);
   }, [project, setRole]);
+
+  if (pageError) {
+    return (
+      <main className={styles.page}>
+        <Alert title={pageError} />
+      </main>
+    );
+  }
+  if (!project) {
+    return null;
+  }
 
   return (
     <main className={styles.page}>
