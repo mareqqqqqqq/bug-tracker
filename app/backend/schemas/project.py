@@ -18,7 +18,7 @@ class ProjectCreate(BaseModel):
     @classmethod
     def check_repo_url(cls, value: str) -> str:
         if not value.startswith("https://"):
-            raise ValueError("Ссылка должна начитнаться с https://")
+            raise ValueError("Ссылка должна начинаться с https://")
         return value
 
 class ProjectOut(BaseModel):

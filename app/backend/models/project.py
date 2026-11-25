@@ -5,7 +5,7 @@ import enum
 from datetime import datetime
 
 class ProjectRole(str, enum.Enum):
-    lead = "teamlead"
+    lead = "lead"
     developer = "developer"
     tester = "tester"
 
