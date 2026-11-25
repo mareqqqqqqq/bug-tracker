@@ -1,9 +1,10 @@
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator, StringConstraints
+from typing import Annotated
 
 
 class RegisterRequest(BaseModel):
     email: EmailStr
-    name: str = Field(min_length=1, max_length=100)
+    name: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
     password: str = Field(min_length=8, max_length=72)
 
     @field_validator("password")
@@ -15,6 +16,13 @@ class RegisterRequest(BaseModel):
             raise ValueError("Пароль должен содержать букву")
         if not any(ch.isdigit() for ch in value):
             raise ValueError("Пароль должен содержать цифру")
+        return value
+
+    @field_validator("name")
+    @classmethod
+    def no_null_chars(cls, value: str) -> str:
+        if "\x00" in value:
+            raise ValueError("Недопустимый символ")
         return value
 
 class LoginRequest(BaseModel):
