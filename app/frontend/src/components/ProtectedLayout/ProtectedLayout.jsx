@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router';
+import Header from '../Header/Header.jsx';
 
 function ProtectedLayout() {
   const [user, setUser] = useState(null);
@@ -43,7 +44,12 @@ function ProtectedLayout() {
   if (status === 'guest') {
     return <Navigate to="/login" replace />;
   }
-  return <Outlet context={user} />;
+  return (
+    <>
+      <Header user={user} />
+      <Outlet context={user} />
+    </>
+  );
 }
 
 export default ProtectedLayout;
