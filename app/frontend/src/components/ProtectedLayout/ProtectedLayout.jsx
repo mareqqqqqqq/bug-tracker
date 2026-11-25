@@ -5,6 +5,7 @@ import Header from '../Header/Header.jsx';
 function ProtectedLayout() {
   const [user, setUser] = useState(null);
   const [status, setStatus] = useState('loading');
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -46,8 +47,8 @@ function ProtectedLayout() {
   }
   return (
     <>
-      <Header user={user} />
-      <Outlet context={user} />
+      <Header user={user} role={role} />
+      <Outlet context={{ user, setRole }} />
     </>
   );
 }
