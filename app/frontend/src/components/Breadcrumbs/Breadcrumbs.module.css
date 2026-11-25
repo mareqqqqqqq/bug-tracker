@@ -1,0 +1,26 @@
+.breadcrumbs {
+  display: flex;
+  gap: 6px;
+}
+
+.item {
+  display: flex;
+  gap: 6px;
+}
+
+.separator {
+  color: var(--neutral-300);
+}
+
+.link {
+  color: var(--neutral-500);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--neutral-900);
+}
+
+.current {
+  color: var(--neutral-900);
+}
